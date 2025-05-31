@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+</head>
+<body id="container">
+    <div id="overlay"></div>
+    <img src="imagens/index/logotipo.png" id="logotipo">
+
+    <div id="botoes-container">
+        <span onclick="transitionToPage('index.html')"><button class="anta-regular voltar-btn"><img src="imagens/index/voltar.png"></button></span>
+        <span onclick="transitionToPage('primeirotri.html')"><button class="anta-regular botao-voltar">Primeiro Trimestre</button></span>
+        <button class="anta-regular" id="conc1">Segundo Trimestre</button>
+        <button class="anta-regular" id="conc2">Terceiro Trimestre</button>
+    </div>
+
+    <script>
+        (function () {
+            const elem = document.querySelector("#container");
+            const logo = document.querySelector("#logotipo");
+    
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+    
+            function parallax(x, y) {
+                const _w = window.innerWidth / 2;
+                const _h = window.innerHeight / 2;
+    
+                const offsetX = (x - _w) * 0.02;
+                const offsetY = (y - _h) * 0.02;
+    
+                const posX = 50 - offsetX;
+                const posY = 50 - offsetY;
+    
+                elem.style.backgroundPosition = `${posX}% ${posY}%`;
+    
+                const logoOffsetX = (x - _w) * 0.06;
+                const logoOffsetY = (y - _h) * 0.06;
+                logo.style.transform = `translate(${logoOffsetX}px, ${logoOffsetY}px)`;
+            }
+            document.addEventListener("mousemove", function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                parallax(mouseX, mouseY);
+            });
+    
+            window.addEventListener("load", () => {
+                parallax(mouseX, mouseY);
+            });
+        })();
+    
+        window.transitionToPage = function(href) {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'block';
+            void overlay.offsetWidth;
+            overlay.style.opacity = '1';
+            setTimeout(() => {
+                window.location.href = href;
+            }, 500);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('overlay');
+            setTimeout(() => {
+                overlay.style.opacity = 0;
+                overlay.addEventListener('transitionend', () => {
+                    overlay.style.display = 'none';
+                }, { once: true });
+            }, 100);
+        });
+
+        const btn1 = document.getElementById("conc1");
+
+        btn1.addEventListener("click", () => {
+        btn1.classList.add("shaking");
+
+            setTimeout(() => {
+                btn1.classList.remove("shaking");
+            }, 400);
+        });
+
+        const btn2 = document.getElementById("conc2");
+
+        btn2.addEventListener("click", () => {
+        btn2.classList.add("shaking");
+
+            setTimeout(() => {
+                btn2.classList.remove("shaking");
+            }, 400);
+        });
+    </script>
+</body>
+</html>
