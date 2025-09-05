@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio</title>
+  <link rel="stylesheet" href="css/trimestres.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet">
+</head>
+
+<body id="container">
+  <div id="overlay"></div>
+
+  <div class="main-content">
+    <div class="sidebar">
+      <button>Estatística</button>
+      <button>Geometria Plana</button>
+      <button>Cincunferência e Áreas</button>
+      <button id="avaliacao-btn">Avaliação</button>
+      <span onclick="transitionToPage('trimestres.html')">
+        <button class="voltar-btn"><img src="imagens/index/voltar.png"></button>
+      </span>
+    </div>
+
+    <div class="content-area"></div>
+
+    <div class="image-switcher">
+      <img id="displayedImage" src="imagens/trimestre2/11.png" alt="Imagem exibida">
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="seta"><img src="imagens/trimestre1/left.png"></button>
+    <button class="seta"><img src="imagens/trimestre1/right.png"></button>
+  </div>
+
+  <script>
+    window.transitionToPage = function (href) {
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'block';
+      void overlay.offsetWidth;
+      overlay.style.opacity = '1';
+      setTimeout(() => {
+        window.location.href = href;
+      }, 500);
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('overlay');
+      setTimeout(() => {
+        overlay.style.opacity = 0;
+        overlay.addEventListener('transitionend', () => {
+          overlay.style.display = 'none';
+        }, { once: true });
+      }, 100);
+
+      const totalImagesPerPresentation = {
+        1: 16,
+        2: 18,
+        3: 13,
+        4: 1
+      };
+
+      let currentPresentation = 1;
+      let currentIndex = 1;
+      const displayedImage = document.getElementById("displayedImage");
+
+      function updateImage() {
+        const imageCode = `${currentPresentation}${currentIndex}`;
+        displayedImage.src = `imagens/trimestre2/${imageCode}.png`;
+      }
+
+      function showNextImage() {
+        const total = totalImagesPerPresentation[currentPresentation];
+        currentIndex = currentIndex < total ? currentIndex + 1 : 1;
+        updateImage();
+      }
+
+      function showPreviousImage() {
+        const total = totalImagesPerPresentation[currentPresentation];
+        currentIndex = currentIndex > 1 ? currentIndex - 1 : total;
+        updateImage();
+      }
+
+      const buttons = document.querySelectorAll(".bottom-bar .seta");
+      buttons[0].addEventListener("click", showPreviousImage);
+      buttons[1].addEventListener("click", showNextImage);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") {
+          showNextImage();
+        } else if (e.key === "ArrowLeft") {
+          showPreviousImage();
+        }
+      });
+
+      const themeButtons = document.querySelectorAll(".sidebar button");
+      themeButtons[0].addEventListener("click", () => {
+        currentPresentation = 1;
+        currentIndex = 1;
+        updateImage();
+      });
+      themeButtons[1].addEventListener("click", () => {
+        currentPresentation = 2;
+        currentIndex = 1;
+        updateImage();
+      });
+      themeButtons[2].addEventListener("click", () => {
+        currentPresentation = 3;
+        currentIndex = 1;
+        updateImage();
+      });
+
+      updateImage();
+    });
+
+    document.getElementById("avaliacao-btn").addEventListener("click", () => {
+      displayedImage.src = "imagens/trimestre2/41.png";
+    });
+
+
+  </script>
+
+
+</body>
+
+</html>
